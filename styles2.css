@@ -413,6 +413,7 @@ border: 1px solid #e0e0e0;
   text-align: center;
   border: 1px solid #e0e0e0;
   transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 20px;
 }
 
 .membro-card:hover {
