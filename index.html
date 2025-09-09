@@ -40,35 +40,35 @@
 
 
         <!-- Cards de resumo -->
-    <div class="resumo-cards" style="display:flex; justify-content:center; gap:16px; margin:18px 0;">
-      <div class="card" style="background:#e8f6ef; border-radius:12px; padding:16px 24px; min-width:100px;">
-        <span class="valor" id="totalIdosos" style="font-size:2em; color:#27ae60;">0</span>
-        <div class="label" style="font-size:1em;">Idosos</div>
-      </div>
-      <div class="card" style="background:#f9f9f9; border-radius:12px; padding:16px 24px; min-width:100px;">
-        <span class="valor" id="registrosHoje" style="font-size:2em; color:#2980b9;">0</span>
-        <div class="label" style="font-size:1em;">Registros hoje</div>
-      </div>
-    </div>
+        <div class="resumo-cards" style="display:flex; justify-content:center; gap:16px; margin:18px 0;">
+          <div class="card" style="background:#e8f6ef; border-radius:12px; padding:16px 24px; min-width:100px;">
+          <span class="valor" id="totalIdosos" style="font-size:2em; color:#27ae60;">0</span>
+          <div class="label" style="font-size:1em;">Idosos</div>
+          </div>
+          <div class="card" style="background:#f9f9f9; border-radius:12px; padding:16px 24px; min-width:100px;">
+          <span class="valor" id="registrosHoje" style="font-size:2em; color:#2980b9;">0</span>
+          <div class="label" style="font-size:1em;">Registros hoje</div>
+          </div>
+        </div>
 
-    <!-- Gráfico de idosos cadastrados -->
-    <canvas id="graficoIdosos" width="320" height="160" style="margin:18px auto;"></canvas>
+        <!-- Gráfico de idosos cadastrados -->
+        <canvas id="graficoIdosos" width="320" height="160" style="margin:18px auto;"></canvas>
 
-    <div id="listaNomesIdosos" style="margin:18px 0; text-align:left;">
-    <h3 style="color:#27ae60;">Idosos cadastrados:</h3>
-    <ul id="nomesIdosos"></ul>
-    </div>
+        <div id="listaNomesIdosos" style="margin:18px 0; text-align:left;">
+          <h3 style="color:#27ae60;">Idosos cadastrados:</h3>
+          <ul id="nomesIdosos"></ul>
+        </div>
 
-    <hr>
+        <hr>
 
-    <!-- Dica do dia -->
-    <div class="dicas" style="margin:18px 0;">
-      <h3 style="color:#27ae60; margin-bottom:8px;">Dica do dia</h3>
-      <p style="font-size:1em;">Lembre-se de registrar os sinais vitais diariamente para acompanhar a saúde dos idosos.</p>
-    </div>
+        <!-- Dica do dia -->
+        <div class="dicas" style="margin:18px 0;">
+          <h3 style="color:#27ae60; margin-bottom:8px;">Dica do dia</h3>
+          <p style="font-size:1em;">Lembre-se de registrar os sinais vitais diariamente para acompanhar a saúde dos idosos.</p>
+        </div>
 
-    <!-- Frase motivacional -->
-    <blockquote style="margin:18px 0; font-style:italic; color:#666;">“Cuidar de alguém é um ato de amor.”</blockquote>
+        <!-- Frase motivacional -->
+        <blockquote style="margin:18px 0; font-style:italic; color:#666;">“Cuidar de alguém é um ato de amor.”</blockquote>
 
 
         <!--botoes de ação-->
@@ -126,7 +126,42 @@
         <button onclick="voltarLista()">Voltar para Lista de Idosos</button>
       </div>
     </div>
+
+
+      <!-- Página de quem somos nós, explicando o projeto e o time -->
+    <div id="quem_somos" class="pagina hidden">
+      <div class="sobre-card">
+        <h2>Sobre Nós</h2>
+        <p>
+           Somos um grupo de estudantes dedicados a criar soluções tecnológicas que melhorem a vida das pessoas. Nosso projeto atual, Ajuda+, é uma plataforma voltada para o cuidado e organização da saúde dos idosos, oferecendo ferramentas práticas para facilitar o dia a dia de cuidadores e familiares.
+        </p>
+
+        <hr>
+
+        <h3>Nosso Time</h3>
+        <div class="time-cards">
+          <!-- Card da nossa turma, onde aparecera cada um e o que executou no projeto e etc -->
+          <div class="membro-card">
+            <img src="fotos/fotoPedro.png" alt="Foto do Pedro">
+            <h4>Pedro Henrique Ferreira</h4>
+            <p><b>Função:</b> Desenvolvedor </p>
+            <p>Responsável pela programação e estrutura do site Ajuda+.</p>
+          </div>
+
+          <div class="membro-card">
+            <img src="fotos/fotoLuiz.jpg" alt="Foto do luiz">
+            <h4>Luis Claudio Silva Prado</h4>
+            <p><b>Função:</b> Criar e Organizar os slides</p>
+            <p>Responsável por toda a criação e organização dos slides para a apresentação do projeto</p>
+          </div>
+        </div>
+
+        <button onclick="mostrarPagina('home')">Voltar para Home</button>
+      </div>
+    </div>
   </div>
+
+  
 
   <script src="script2.js"></script>
   </script>
