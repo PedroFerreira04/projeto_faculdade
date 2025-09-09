@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+</head>
+<body>
+    <!--Painel inteiro da tela d elogin-->
+    <main>
+        <form class="fundo">
+            <h1>Login</h1>
+            <div class="inputs">
+                <input id="email" placeholder="Usuario" type="email">
+                <i class="bx bxs-user"></i>
+            </div>
+            <div class="inputs">
+                <input id="senha" placeholder="Senha" type="password">
+                <i class="bx bxs-lock-alt"></i>
+            </div>
+            <div class="lembrar-me">
+                <label for="">
+                    <input type="checkbox">
+                    Lembrar Senha
+                </label>
+            <a href="#">Esqueci a Senha</a>
+            </div>
+        
+                <button class="botao" type="button" onclick="login()">Login</button>
+
+            <div class="cadastro">
+                <p>Não tem uma conta?<a href="#"> Cadastre-se</a></p>
+            </div>
+        </form>
+    </main>
+    
+<script src="login.js">
+
+</script>
+</body>
+</html>

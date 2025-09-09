@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Agenda de Idosos</title>
+  <!--essa biblioteca aqui embaixo e para os icons, senao vai e sumir os icons tudo-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- css de tudo(tirando a tela de login pq ela ta em outra pasta)-->
+  <link rel="stylesheet" href="styles2.css">
+
+  <!-- link da biblioteca do chart.js para fazer os graficos-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+</head>
+<body>
+  <!-- o menu lateal do site para as pessoas interagir -->
+  <div class="sidebar" id="sidebar">
+    <div class="logo">
+      <i class="fa-solid fa-heart-pulse"></i> <span>Ajuda+</span>
+
+      <!--botoes do botão lateal, onde vai direcionar para as paginas-->
+    </div>
+    <button class="toggle-btn" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+
+    <div class="nav">
+      <button onclick="mostrarPagina('home')"><i class="fa-solid fa-house"></i> <span>Início</span></button>
+      <button onclick="mostrarPagina('idosos')"><i class="fa-solid fa-user"></i> <span>Idosos</span></button>
+      <button onclick="mostrarPagina('quem_somos')"><i class="fa-solid fa-question"></i> <span>Quem somos?</span></button>
+      <button onclick="sair()"><i class="fa-solid fa-right-from-bracket"></i> <span>Sair</span></button>
+    </div>
+  </div>
+
+  <!-- todo o conteudo -->
+  <div class="content">
+    <!-- pagina onde vai ser a home do nosso projeto, explicando o conteudo -->
+    <div id="home" class="pagina">
+      <div class="home-card">
+        <h2 id="boasVindas"> Olá Bem-vindo ao Ajuda+</h2>
+        <p>Seu espaço para cuidar com carinho e organização.</p>
+
+
+        <!-- Cards de resumo -->
+    <div class="resumo-cards" style="display:flex; justify-content:center; gap:16px; margin:18px 0;">
+      <div class="card" style="background:#e8f6ef; border-radius:12px; padding:16px 24px; min-width:100px;">
+        <span class="valor" id="totalIdosos" style="font-size:2em; color:#27ae60;">0</span>
+        <div class="label" style="font-size:1em;">Idosos</div>
+      </div>
+      <div class="card" style="background:#f9f9f9; border-radius:12px; padding:16px 24px; min-width:100px;">
+        <span class="valor" id="registrosHoje" style="font-size:2em; color:#2980b9;">0</span>
+        <div class="label" style="font-size:1em;">Registros hoje</div>
+      </div>
+    </div>
+
+    <!-- Gráfico de idosos cadastrados -->
+    <canvas id="graficoIdosos" width="320" height="160" style="margin:18px auto;"></canvas>
+
+    <div id="listaNomesIdosos" style="margin:18px 0; text-align:left;">
+    <h3 style="color:#27ae60;">Idosos cadastrados:</h3>
+    <ul id="nomesIdosos"></ul>
+    </div>
+
+    <hr>
+
+    <!-- Dica do dia -->
+    <div class="dicas" style="margin:18px 0;">
+      <h3 style="color:#27ae60; margin-bottom:8px;">Dica do dia</h3>
+      <p style="font-size:1em;">Lembre-se de registrar os sinais vitais diariamente para acompanhar a saúde dos idosos.</p>
+    </div>
+
+    <!-- Frase motivacional -->
+    <blockquote style="margin:18px 0; font-style:italic; color:#666;">“Cuidar de alguém é um ato de amor.”</blockquote>
+
+
+        <!--botoes de ação-->
+        <button onclick="mostrarPagina('idosos')">Cadastrar novo idoso</button>
+        <button onclick="mostrarPagina('quem_somos')">Saiba mais sobre o projeto</button>
+      </div>
+    </div>
+
+    <!-- Página onde vai ter o cadastro dos idosos -->
+    <div id="idosos" class="pagina hidden">
+      <!-- deixando a area do idoso dentro de uma div para deixar mais bonito -->
+      <div class="idoso-card">
+      <h2>Cadastro de Idosos</h2>
+      <form id="formIdoso">
+        <input type="text" id="nome" placeholder="Nome do idoso" required>
+        <input type="number" id="idade" placeholder="Idade" required>
+        <button type="submit">cadastrar Idoso</button>
+      </form>
+
+      <hr>
+
+      <h2>Lista de Idosos</h2>
+      <div id="listaIdosos"></div>
+      </div>
+
+
+      <!-- Seção da agenda onde vamos registrar todos os negocio dos idosos -->
+      <div id="agendaSection" class="hidden">
+        <div class="agenda-card">
+          <h2 id="tituloAgenda">Agenda</h2>
+          <form id="formRegistro">
+
+            <label>Pressão arterial:</label>
+            <input type="text" id="pressao" placeholder="Ex: 12x8" required>
+
+            <label>Temperatura (°C):</label>
+            <input type="range" id="temperatura" min="30" max="45" step="0.1" value="36.5">
+            <output id="tempOutput">36.5 °C (Normal)</output>
+            
+            <label>Observações:</label>
+            <textarea id="obs" placeholder="Ex: Dormiu bem"></textarea>
+
+            <label>Refeições:</label>
+            <input type="text" id="refeicao" placeholder="Ex: Café da manhã - pão com leite">
+
+            <label>Idas ao banheiro:</label>
+            <input type="number" id="banheiro" placeholder="Ex: 2">
+
+            <button type="submit">Salvar Registro</button>
+          </form>
+        </div>
+
+        <h3>Histórico</h3>
+        <div id="historico"></div>
+        <button onclick="voltarLista()">Voltar para Lista de Idosos</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script2.js"></script>
+  </script>
+</body>
+</html>
