@@ -444,3 +444,17 @@ border: 1px solid #e0e0e0;
   color: #555;
   margin: 4px 0;
 }
+
+
+/* ajuda para ver a pressao */
+a.video-link {
+  color: #27ae60;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a.video-link:hover {
+  color: #219150;
+  text-decoration: underline;
+}
