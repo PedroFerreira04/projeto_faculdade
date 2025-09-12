@@ -109,13 +109,17 @@
           statusTemp = "Febre Alta";
         }
 
+      const refeicoesSelecionadas = Array.from(document.querySelectorAll('input[name="refeicao"]:checked'))
+                                   .map(r => r.value)
+                                   .join(', ');
+
       const novoRegistro = {
         data: new Date().toLocaleString(),
         pressao: document.getElementById('pressao').value,
         temperatura: temp,
         statusTemp: statusTemp,
         obs: document.getElementById('obs').value,
-        refeicao: document.getElementById('refeicao').value,
+        refeicao: refeicoesSelecionadas || "Nenhuma refeição marcada",
         banheiro: document.getElementById('banheiro').value
       };
 
@@ -136,78 +140,115 @@
       carregarHistorico();
     });
 
-    // Deletar o que não for do agrado ou se voce quiser kkkkk
-    function deletarIdoso(index) {
-      if (confirm("Excluir este idoso e toda sua agenda?")) {
-        let idosos = JSON.parse(localStorage.getItem('idosos')) || [];
-        idosos.splice(index, 1);
-        localStorage.setItem('idosos', JSON.stringify(idosos));
-        localStorage.removeItem(`registros_${index}`);
-        carregarIdosos();
-        voltarLista();
-      }
-    }
+// Filtrar histórico
 
-    function deletarRegistro(index) {
-      if (confirm("Excluir este registro?")) {
-        let registros = JSON.parse(localStorage.getItem(`registros_${idosoAtual}`)) || [];
-        registros.splice(index, 1);
-        localStorage.setItem(`registros_${idosoAtual}`, JSON.stringify(registros));
-        carregarHistorico();
-      }
-    }
+function filtrarHistorico() {
+  const dataFiltro = document.getElementById('filtroData').value.toLowerCase();
+  const tempFiltro = document.getElementById('filtroTemp').value;
+  const pressaoFiltro = document.getElementById('filtroPressao').value.toLowerCase();
 
+  const registros = JSON.parse(localStorage.getItem(`registros_${idosoAtual}`)) || [];
+  historicoDiv.innerHTML = "";
 
-    // nome ja fala por si ne, tu vai sair e ir para area de login
-    function sair() {
-      if (confirm("Deseja realmente sair?")) {
-        // remove o nome do usuário
-        localStorage.removeItem("usuarioLogado");
-        // redireciona para a tela de login
-        window.location.href = "tela_login/login.html"; 
-      }
-    }
+  registros.forEach((r, index) => {
+  let combina = true;
 
+  if (dataFiltro && !r.data.toLowerCase().includes  (dataFiltro)) combina = false;
+  if (tempFiltro && r.statusTemp !== tempFiltro) combina = false;
+  if (pressaoFiltro && !r.pressao.toLowerCase().includes(pressaoFiltro)) combina = false;
 
-    // Inicializa lista de idosos ao carregar a página
+if (combina) {
+  historicoDiv.innerHTML += `
+    <div class="registro">
+      <p><b>Data:</b> ${r.data}</p>
+      <p><b>Pressão arterial:</b> ${r.pressao}</p>
+      <p><b>Temperatura:</b> ${r.temperatura} °C (${r.statusTemp})</p>
+      <p><b>Observações:</b> ${r.obs}</p>
+      <p><b>Refeição:</b> ${r.refeicao}</p>
+      <p><b>Banheiro:</b> ${r.banheiro} vezes</p>
+      <button class="btn-delete" onclick="deletarRegistro(${index})">Excluir Registro</button>
+    </div>
+  `;
+}
+});
+
+if (historicoDiv.innerHTML === "") {
+  historicoDiv.innerHTML = "<p style='text-align:center;color:#888;'>Nenhum registro encontrado com os filtros aplicados.</p>";
+}
+}
+
+// Deletar o que não for do agrado ou se voce quiser kkkkk
+function deletarIdoso(index) {
+  if (confirm("Excluir este idoso e toda sua agenda?")) {
+    let idosos = JSON.parse(localStorage.getItem('idosos')) || [];
+    idosos.splice(index, 1);
+    localStorage.setItem('idosos', JSON.stringify(idosos));
+    localStorage.removeItem(`registros_${index}`);
     carregarIdosos();
-
-    // Mensagem de boas-vindas
-  window.onload = function() {
-  let nome = localStorage.getItem("email");
-  if (nome) {
-    document.getElementById("boasVindas").textContent = "Olá " + nome + ", bem-vindo ao Ajuda+!";
+    voltarLista();
   }
+}
 
-  // Atualiza total de idosos
-  let idosos = JSON.parse(localStorage.getItem('idosos')) || [];
-  document.getElementById("totalIdosos").textContent = idosos.length;
+function deletarRegistro(index) {
+  if (confirm("Excluir este registro?")) {
+    let registros = JSON.parse(localStorage.getItem(`registros_${idosoAtual}`)) || [];
+    registros.splice(index, 1);
+    localStorage.setItem(`registros_${idosoAtual}`, JSON.stringify(registros));
+    carregarHistorico();
+  }
+}
 
-  // Soma total de registros de todos os idosos
-  let totalRegistros = 0;
-  idosos.forEach((idoso, index) => {
-    let registros = JSON.parse(localStorage.getItem(`registros_${index}`)) || [];
-    totalRegistros += registros.length;
-  });
-  document.getElementById("registrosHoje").textContent = totalRegistros;
 
-  // Gráfico de idosos cadastrados e registros
-  const ctx = document.getElementById('graficoIdosos').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Idosos cadastrados', 'Registros'],
-      datasets: [{
-        data: [idosos.length, totalRegistros],
-        backgroundColor: ['#27ae60', '#2980b9']
-      }]
-    },
-    options: {
-      plugins: { legend: { display: true } }
-    }
-  });
-  
-  };
+// nome ja fala por si ne, tu vai sair e ir para area de login
+function sair() {
+  if (confirm("Deseja realmente sair?")) {
+    // remove o nome do usuário
+    localStorage.removeItem("usuarioLogado");
+    // redireciona para a tela de login
+    window.location.href = "tela_login/login.html"; 
+  }
+}
+
+
+// Inicializa lista de idosos ao carregar a página
+carregarIdosos();
+
+  // Mensagem de boas-vindas
+window.onload = function() {
+let nome = localStorage.getItem("email");
+if (nome) {
+  document.getElementById("boasVindas").textContent = "Olá " + nome + ", bem-vindo ao Ajuda+!";
+}
+
+// Atualiza total de idosos
+let idosos = JSON.parse(localStorage.getItem('idosos')) || [];
+document.getElementById("totalIdosos").textContent = idosos.length;
+
+// Soma total de registros de todos os idosos
+let totalRegistros = 0;
+idosos.forEach((idoso, index) => {
+  let registros = JSON.parse(localStorage.getItem(`registros_${index}`)) || [];
+  totalRegistros += registros.length;
+});
+document.getElementById("registrosHoje").textContent = totalRegistros;
+
+// Gráfico de idosos cadastrados e registros
+const ctx = document.getElementById('graficoIdosos').getContext('2d');
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Idosos cadastrados', 'Registros'],
+    datasets: [{
+      data: [idosos.length, totalRegistros],
+      backgroundColor: ['#27ae60', '#2980b9']
+    }]
+  },
+  options: {
+    plugins: { legend: { display: true } }
+  }
+});
+
+};
 
 // Atualizar status da temperatura em tempo real enquanto o usuário ajusta a barra
 
@@ -227,4 +268,10 @@ document.getElementById("temperatura").addEventListener("input", function() {
   const output = document.getElementById("tempOutput");
   output.innerHTML = `${temp.toFixed(1)} °C (${status})`;
   output.style.color = cor;
+});
+
+document.querySelectorAll(".faq-question").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.parentElement.classList.toggle("active");
+  });
 });

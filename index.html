@@ -54,11 +54,6 @@
         <!-- Gráfico de idosos cadastrados -->
         <canvas id="graficoIdosos" width="320" height="160" style="margin:18px auto;"></canvas>
 
-        <div id="listaNomesIdosos" style="margin:18px 0; text-align:left;">
-          <h3 style="color:#27ae60;">Idosos cadastrados:</h3>
-          <ul id="nomesIdosos"></ul>
-        </div>
-
         <hr>
 
         <!-- Dica do dia -->
@@ -114,21 +109,73 @@
                 <small>📺 Créditos: Canal <b>Enfermagem em Foco</b> no YouTube</small>
               </p>
 
+            <!-- Slider de temperatura com output dinâmico -->
+
             <label>Temperatura (°C):</label>
             <input type="range" id="temperatura" min="30" max="45" step="0.1" value="36.5">
             <output id="tempOutput">36.5 °C (Normal)</output>
+
+            <!--observação-->
             
             <label>Observações:</label>
             <textarea id="obs" placeholder="Ex: Dormiu bem"></textarea>
 
             <label>Refeições:</label>
-            <input type="text" id="refeicao" placeholder="Ex: Café da manhã - pão com leite">
+            <div id="refeicoes">
+              <label class="opcao-refeicao">
+                <input type="checkbox" name="refeicao" value="Café da manhã">
+                <span>🥐 Café da manhã</span>
+              </label>
+
+              <label class="opcao-refeicao">
+                <input type="checkbox" name="refeicao" value="Almoço">
+                <span>🍛 Almoço</span>
+              </label>
+
+              <label class="opcao-refeicao">
+                <input type="checkbox" name="refeicao" value="Lanche da tarde">
+                <span>🍪 Lanche da tarde</span>
+              </label>
+
+              <label class="opcao-refeicao">
+                <input type="checkbox" name="refeicao" value="Jantar">
+                <span>🍝 Jantar</span>
+              </label>
+
+              <label class="opcao-refeicao">
+                <input type="checkbox" name="refeicao" value="Ceia">
+                <span>🍵 Ceia</span>
+              </label>
+            </div>
 
             <label>Idas ao banheiro:</label>
             <input type="number" id="banheiro" placeholder="Ex: 2">
 
             <button type="submit">Salvar Registro</button>
           </form>
+        </div>
+
+        <!--filtro de registros, por exemplo (filtra quando ele estava com febre, ou em determinada nada e pa) -->
+
+        <div id="filtrosRegistros" style="margin: 20px 0; text-align: center;">
+          <input type="date" id="filtroData" placeholder="Filtrar por data (ex: 11/09/2025)" style="padding: 6px; width: 200px;">
+          
+          <select id="filtroTemp" style="padding: 6px; width: 200px;">
+            <option value="">Todas temperaturas</option>
+            <option value="Normal">Normal</option>
+            <option value="Febril">Febril</option>
+            <option value="Febre">Febre</option>
+            <option value="Febre Alta">Febre Alta</option>
+          </select>
+          
+          <input type="text" id="filtroPressao" placeholder="Filtrar por pressão (ex: 12x8)" style="padding: 6px; width: 200px;">
+          
+          <button onclick="filtrarHistorico()" style="padding: 6px 12px; background:#27ae60; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+            Filtrar
+          </button>
+          <button onclick="carregarHistorico()" style="padding: 6px 12px; background:#2980b9; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+            Limpar Filtros
+          </button>
         </div>
 
         <h3>Histórico</h3>
@@ -145,6 +192,35 @@
         <p>
            Somos um grupo de estudantes dedicados a criar soluções tecnológicas que melhorem a vida das pessoas. Nosso projeto atual, Ajuda+, é uma plataforma voltada para o cuidado e organização da saúde dos idosos, oferecendo ferramentas práticas para facilitar o dia a dia de cuidadores e familiares.
         </p>
+        
+        <!--perguntas frequentes-->
+        <div class="pergunta-card">
+          <button class="faq-question">Por que criamos o Ajuda+?</button>
+            <div class="resposta">
+              <p>O projeto surgiu para facilitar o cuidado diário com idosos, oferecendo uma forma simples de organizar registros de saúde.</p>
+            </div>
+        </div>
+
+        <div class="pergunta-card">
+          <button class="faq-question">Quem pode usar o sistema?</button>
+            <div class="resposta">
+              <p>Cuidadores, familiares e profissionais de saúde que acompanham idosos.</p>
+            </div>
+        </div>
+
+        <div class="pergunta-card">
+          <button class="faq-question">Os dados ficam salvos onde?</button>
+            <div class="resposta">
+              <p>Atualmente os dados ficam salvo no seu navegador apenas (localStorage), mas futuramente o plano do projeto e integrar em um banco de dados!</p>
+            </div>
+        </div>
+
+        <div class="pergunta-card">
+          <button class="faq-question">O sistema é gratuito?</button>
+            <div class="resposta">
+              <p>Sim, é um projeto acadêmico/gratuito para ajudar no cuidado diário.</p>
+            </div>
+        </div>
 
         <hr>
 
@@ -181,9 +257,9 @@
           </div>
 
           <div class="membro-card">
-            <img src="fotos/fotoLuiz.jpgh" alt="Foto do ">
-            <h4>null</h4>
-            <p><b>Função:</b> NULL </p>
+            <img src="fotos/fotoGabriel.jpg" alt="Foto do ">
+            <h4>Gabriel Marcos dos Santos Brito</h4>
+            <p><b>Função:</b> </p>
             <p>NULL</p>
           </div>
 
