@@ -263,6 +263,7 @@ border: 1px solid #e0e0e0;
 }
 
 .idoso-card button {
+  width: 150px;
   background: #27ae60;
   color: #fff;
   border: none;
@@ -368,7 +369,7 @@ border: 1px solid #e0e0e0;
   padding: 32px 24px;
   max-width: 900px;
   width: 100%;
-  margin: 40px auto;    /* <-- centraliza no meio */
+  margin: 40px auto;    
   text-align: center;
   border: 1px solid #e0e0e0;
 }
@@ -487,6 +488,8 @@ a.video-link:hover {
   display: block;
 }
 
+
+
 /* cheekbox com estilo para refeicoes */
 #refeicoes {
   display: grid;
@@ -520,7 +523,7 @@ a.video-link:hover {
   text-align: center;
 }
 
-/* Quando estiver marcado */
+/* Quando estiver marcado as refeição que o idoso fez */
 .opcao-refeicao input[type="checkbox"]:checked + span {
   background: #27ae60;
   color: #fff;

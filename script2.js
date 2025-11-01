@@ -18,6 +18,19 @@
     const formRegistro = document.getElementById('formRegistro');
     let idosoAtual = null;
 
+    // Definir limites no input de idade (ajuda na UI)
+    const inputIdade = document.getElementById('idade');
+    if (inputIdade) {
+      inputIdade.setAttribute('min', '0');
+      inputIdade.setAttribute('max', '120');
+    }
+
+    const inputBanheiro = document.getElementById('banheiro');
+    if (inputBanheiro) {
+      inputBanheiro.setAttribute('min', '0');
+      inputBanheiro.setAttribute('max', '20');
+    }
+
     // Lista de Idosos que nos cadastramos
     function carregarIdosos() {
       const idosos = JSON.parse(localStorage.getItem('idosos')) || [];
@@ -36,9 +49,28 @@
 
     formIdoso.addEventListener('submit', e => {
       e.preventDefault();
+      const nomeVal = document.getElementById('nome').value.trim();
+      const idadeRaw = document.getElementById('idade').value.trim();
+      const idadeVal = parseInt(idadeRaw, 10);
+
+      const MIN_IDADE = 0;
+      const MAX_IDADE = 120;
+
+      if (!nomeVal) {
+        alert('Por favor insira o nome do idoso.');
+        document.getElementById('nome').focus();
+        return;
+      }
+
+      if (isNaN(idadeVal) || idadeVal < MIN_IDADE || idadeVal > MAX_IDADE) {
+        alert(`Idade inválida. Insira um valor entre ${MIN_IDADE} e ${MAX_IDADE}.`);
+        document.getElementById('idade').focus();
+        return;
+      }
+
       const novoIdoso = {
-        nome: document.getElementById('nome').value,
-        idade: document.getElementById('idade').value
+        nome: nomeVal,
+        idade: idadeVal
       };
       const idosos = JSON.parse(localStorage.getItem('idosos')) || [];
       idosos.push(novoIdoso);
@@ -73,6 +105,7 @@
       registros.forEach((r, index) => {
         // Definir cor conforme statusTemp
         let corTemp = "#2ecc71"; // verde (Normal)
+        if (r.statusTemp === "Hipotermia") corTemp = "#8e44ad"; // roxo
         if (r.statusTemp === "Febril") corTemp = "#e67e22";     // laranja
         if (r.statusTemp === "Febre") corTemp = "#e74c3c";      // vermelho
         if (r.statusTemp === "Febre Alta") corTemp = "#c0392b"; //      vermelho escuro
@@ -99,9 +132,22 @@
 
       const temp = parseFloat(document.getElementById('temperatura').value);
 
+      // Validação do número de idas ao banheiro
+      const banheiroRaw = document.getElementById('banheiro').value.trim();
+      const banheiroVal = parseInt(banheiroRaw, 10);
+      const MIN_BANHEIRO = 0;
+      const MAX_BANHEIRO = 20;
+      if (isNaN(banheiroVal) || banheiroVal < MIN_BANHEIRO || banheiroVal > MAX_BANHEIRO) {
+        alert(`Número de idas ao banheiro inválido. Insira um valor entre ${MIN_BANHEIRO} e ${MAX_BANHEIRO}.`);
+        document.getElementById('banheiro').focus();
+        return;
+      }
+
       // Classificação da temperatura
       let statusTemp = "Normal";
-        if (temp >= 37.3 && temp <= 37.8) {
+      if (temp < 35) {
+          statusTemp = "Hipotermia";
+        } else if (temp >= 37.3 && temp <= 37.8) {
            statusTemp = "Febril";
         } else if (temp >= 37.9 && temp <= 39) {
           statusTemp = "Febre";
@@ -120,7 +166,7 @@
         statusTemp: statusTemp,
         obs: document.getElementById('obs').value,
         refeicao: refeicoesSelecionadas || "Nenhuma refeição marcada",
-        banheiro: document.getElementById('banheiro').value
+        banheiro: banheiroVal
       };
 
       // ⚠️ AVISO PARA O CUIDADOR (aqui é o ponto certo)
@@ -257,7 +303,9 @@ document.getElementById("temperatura").addEventListener("input", function() {
   let status = "Normal";
   let cor = "#2ecc71"; // verde
 
-  if (temp >= 37.3 && temp <= 37.8) {
+  if (temp < 35) {
+    status = "Hipotermia"; cor = "#8e44ad"; // roxo
+  } else if (temp >= 37.3 && temp <= 37.8) {
     status = "Febril"; cor = "#e67e22"; // laranja
   } else if (temp >= 37.9 && temp <= 39) {
     status = "Febre"; cor = "#e74c3c"; // vermelho
@@ -275,3 +323,4 @@ document.querySelectorAll(".faq-question").forEach(btn => {
     btn.parentElement.classList.toggle("active");
   });
 });
+
