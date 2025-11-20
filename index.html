@@ -11,6 +11,8 @@
 
   <!-- link da biblioteca do chart.js para fazer os graficos-->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <!-- biblioteca para gerar PDF do conteúdo (html2pdf) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <!-- o menu lateal do site para as pessoas interagir -->
@@ -92,64 +94,98 @@
 
       <!-- Seção da agenda onde vamos registrar todos os negocio dos idosos -->
       <div id="agendaSection" class="hidden">
-        <div class="agenda-card">
-          <h2 id="tituloAgenda">Agenda</h2>
+        <div class="agenda-card" id="agenda">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <h2 id="tituloAgenda">Agenda</h2>
+              <div class="agenda-actions minimal">
+                <button type="button" class="jump-btn" onclick="goToSection('alimentacao')">Alimentação</button>
+                <button type="button" class="jump-btn" onclick="goToSection('higiene')">Higiene</button>
+                <button type="button" class="jump-btn" onclick="goToSection('saude')">Saúde</button>
+                <button id="btnPdf" onclick="exportToPDF()">Exportar PDF</button>
+              </div>
+            </div>
+          <!-- Três blocos sempre visíveis: Alimentação / Higiene / Saúde -->
           <form id="formRegistro">
 
-            <label>Pressão arterial:</label>
-            <input type="text" id="pressao" placeholder="Ex: 12x8" required>
+            <div class="panel" id="panel-alimentacao">
+              <div class="form-block">
+                <h3>Alimentação</h3>
+                <div id="refeicoes">
+                <label class="opcao-refeicao">
+                  <input type="checkbox" name="refeicao" value="Café da manhã">
+                  <span>🥐 Café da manhã</span>
+                </label>
 
-            <!-- Link de ajuda -->
-              <p style="margin-top:6px; font-size:0.9em; color:#555;">
-                Não sabe como medir a pressão? 
-                <a href="https://www.youtube.com/watch?v=JYcU8Uz65T8" target="_blank" style="color:#27ae60; font-weight:bold; text-decoration:none;">
-                  Assista este vídeo
-                </a>
-                <br>
-                <small>📺 Créditos: Canal <b>Enfermagem em Foco</b> no YouTube</small>
-              </p>
+                <label class="opcao-refeicao">
+                  <input type="checkbox" name="refeicao" value="Almoço">
+                  <span>🍛 Almoço</span>
+                </label>
 
-            <!-- Slider de temperatura com output dinâmico -->
+                <label class="opcao-refeicao">
+                  <input type="checkbox" name="refeicao" value="Lanche da tarde">
+                  <span>🍪 Lanche da tarde</span>
+                </label>
 
-            <label>Temperatura (°C):</label>
-            <input type="range" id="temperatura" min="30" max="45" step="0.1" value="36.5">
-            <output id="tempOutput">36.5 °C (Normal)</output>
+                <label class="opcao-refeicao">
+                  <input type="checkbox" name="refeicao" value="Jantar">
+                  <span>🍝 Jantar</span>
+                </label>
 
-            <!--observação-->
-            
-            <label>Observações:</label>
-            <textarea id="obs" placeholder="Ex: Dormiu bem"></textarea>
-
-            <label>Refeições:</label>
-            <div id="refeicoes">
-              <label class="opcao-refeicao">
-                <input type="checkbox" name="refeicao" value="Café da manhã">
-                <span>🥐 Café da manhã</span>
-              </label>
-
-              <label class="opcao-refeicao">
-                <input type="checkbox" name="refeicao" value="Almoço">
-                <span>🍛 Almoço</span>
-              </label>
-
-              <label class="opcao-refeicao">
-                <input type="checkbox" name="refeicao" value="Lanche da tarde">
-                <span>🍪 Lanche da tarde</span>
-              </label>
-
-              <label class="opcao-refeicao">
-                <input type="checkbox" name="refeicao" value="Jantar">
-                <span>🍝 Jantar</span>
-              </label>
-
-              <label class="opcao-refeicao">
-                <input type="checkbox" name="refeicao" value="Ceia">
-                <span>🍵 Ceia</span>
-              </label>
+                <label class="opcao-refeicao">
+                  <input type="checkbox" name="refeicao" value="Ceia">
+                  <span>🍵 Ceia</span>
+                </label>
+              </div>
             </div>
 
-            <label>Idas ao banheiro:</label>
-            <input type="number" id="banheiro" placeholder="Ex: 2">
+            <div class="panel" id="panel-higiene">
+              <div class="form-block">
+                <h3>Higiene</h3>
+                <label class="opcao-refeicao" style="display:flex; gap:8px; align-items:center;">
+                  <input type="checkbox" id="banho">
+                  <span>🛁 Banho</span>
+                </label>
+                <label class="opcao-refeicao" style="display:flex; gap:8px; align-items:center;">
+                  <input type="checkbox" id="escovacao">
+                  <span>🪥 Escovação</span>
+                </label>
+                <label class="opcao-refeicao" style="display:flex; gap:8px; align-items:center;">
+                  <input type="checkbox" id="trocarFralda">
+                  <span>🔁 Trocar fralda (se aplicável)</span>
+                </label>
+                <label style="display:block; margin-top:8px;">Observações de higiene:</label>
+                <textarea id="higieneObs" placeholder="Ex: Precisa de ajuda para banho"></textarea>
+                <label style="display:block; margin-top:8px;">Idas ao banheiro:</label>
+                <input type="number" id="banheiro" placeholder="Ex: 2">
+              </div>
+            </div>
+
+            <div class="panel" id="panel-saude">
+              <div class="form-block">
+                <h3>Saúde</h3>
+                <label>Pressão arterial:</label>
+                <input type="text" id="pressao" placeholder="Ex: 12x8" required>
+                <p style="margin-top:6px; font-size:0.9em; color:#555;">
+                  Não sabe como medir a pressão? 
+                  <a href="https://www.youtube.com/watch?v=JYcU8Uz65T8" target="_blank" style="color:#27ae60; font-weight:bold; text-decoration:none;">Assista este vídeo</a>
+                  <br>
+                  <small>📺 Créditos: Canal <b>Enfermagem em Foco</b> no YouTube</small>
+                </p>
+
+                <label>Temperatura (°C):</label>
+                <input type="range" id="temperatura" min="30" max="45" step="0.1" value="36.5">
+                <output id="tempOutput">36.5 °C (Normal)</output>
+
+                <label>Medicação (nome):</label>
+                <input type="text" id="medicacao" placeholder="Ex: Paracetamol">
+                <label>Dosagem:</label>
+                <input type="text" id="dosagem" placeholder="Ex: 500 mg">
+                <label style="display:flex; gap:8px; align-items:center;"><input type="checkbox" id="medTomada"> Medicação tomada</label>
+
+                <label>Observações gerais de saúde:</label>
+                <textarea id="obs" placeholder="Ex: Dormiu bem"></textarea>
+              </div>
+            </div>
 
             <button type="submit">Salvar Registro</button>
           </form>
@@ -162,7 +198,6 @@
           
           <select id="filtroTemp" style="padding: 6px; width: 200px;">
             <option value="">Todas temperaturas</option>
-            <option value="Hipotérmica">Hipotérmica</option>
             <option value="Normal">Normal</option>
             <option value="Febril">Febril</option>
             <option value="Febre">Febre</option>
@@ -184,6 +219,7 @@
         <button onclick="voltarLista()">Voltar para Lista de Idosos</button>
       </div>
     </div>
+  </div>
 
 
       <!-- Página de quem somos nós, explicando o projeto e o time -->
@@ -297,6 +333,5 @@
   
 
   <script src="script2.js"></script>
-  </script>
 </body>
 </html>

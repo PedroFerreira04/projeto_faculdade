@@ -192,6 +192,100 @@ border: 1px solid #e0e0e0;
   margin-bottom: 16px;
 }
 
+/* Ações da agenda (botão Exportar PDF) */
+.agenda-actions { text-align: right; }
+#btnPdf {
+  background: #34495e;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+#btnPdf:hover { background: #2c3e50; }
+
+/* Form blocks inside agenda (Alimentação / Higiene / Saúde) */
+.form-block {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.form-block h3 {
+  margin: 0 0 8px 0;
+  color: #2980b9;
+}
+
+/* Registro histórico em blocos */
+.registro-block {
+  background: #fafafa;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+.registro-block h4 {
+  margin: 0 0 6px 0;
+  color: #27ae60;
+}
+
+/* Estilo para ações (botão PDF) */
+.agenda-actions { text-align: right; }
+#btnPdf {
+  background: linear-gradient(180deg,#27ae60,#219150);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+#btnPdf:hover { filter: brightness(0.95); }
+
+/* Painéis — exibir os três blocos verticalmente */
+.panel { margin-bottom: 12px; }
+
+/* garantir que inputs dos blocos fiquem alinhados e visíveis */
+.form-block textarea { min-height: 64px; }
+
+/* Botões de navegação rápida (jump) */
+.jump-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 6px 10px;
+  margin-right: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95em;
+}
+.jump-btn:hover {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.06);
+}
+.agenda-actions { display:flex; align-items:center; gap:8px; }
+
+/* Versão minimal dentro da agenda, abaixo do título */
+.agenda-actions.minimal .jump-btn {
+  padding: 6px 8px;
+  font-size: 0.95em;
+  color: #2d6a4f;
+}
+.agenda-actions.minimal #btnPdf {
+  background: transparent;
+  border: 1px solid rgba(45,106,79,0.12);
+  color: #2d6a4f;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+.agenda-actions.minimal #btnPdf:hover {
+  background: rgba(45,106,79,0.06);
+}
+
 .agenda-card label {
   display: block;
   margin-top: 12px;
